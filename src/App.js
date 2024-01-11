@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 
 
 const bgStyle = {
@@ -31,6 +31,15 @@ const App = () => {
   const [mail, setMail] = useState('')
   const [pass, setPass] = useState('')
 
+
+
+  useEffect(() => {
+    console.log( `mail: ',${mail}`)
+    console.log(mail.toUpperCase())
+    // return () => {
+    //  console.log('temizlendi')
+    // };
+  }, [mail]);
   const changeMail = (e) => {
     setMail(e.target.value)
   }
