@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import DataFetching from './DataFetching';
 import Pokemon from './Pokemon';
+import FormDemo from './FormDemo';
 
 
 
@@ -17,6 +18,9 @@ const App = () => {
       <p style={{fontSize: '3rem'}}>POKEMON API</p>
       <div>
         <Pokemon />
+      </div>
+      <div>
+        <FormDemo/>
       </div>
   </div>
 }
