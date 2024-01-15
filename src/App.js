@@ -1,10 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import DataFetching from './DataFetching';
 import Pokemon from './Pokemon';
 import FormDemo from './FormDemo';
+import FormDemo2 from './FormDemo2';
 
 
 
@@ -21,6 +20,9 @@ const App = () => {
       </div>
       <div>
         <FormDemo/>
+      </div>
+      <div>
+        <FormDemo2 />
       </div>
   </div>
 }
