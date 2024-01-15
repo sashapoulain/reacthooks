@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { useState , useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 
 const bgStyle = {
@@ -22,7 +22,7 @@ const btnStyle = {
   fontSize: '2rem'
 }
 const formStyle = {
-  padding: '1em', 
+  padding: '1em',
 }
 
 
@@ -31,10 +31,30 @@ const App = () => {
   const [mail, setMail] = useState('')
   const [pass, setPass] = useState('')
 
-
+  //useffect 2 türlü kullanılabilir. sonucunda temizleme yapılabilir yada yapılmayabilir.
 
   useEffect(() => {
-    console.log( `mail: ',${mail}`)
+    document.title = `${count} kez tıklandı`
+    console.log('çalışıyorum'); //her counta basıldığında burası çalışacak.
+    //eğer bu çalışıyorum her defasında console a yazmasın istiyorsak... o zaman, effect func. dan sonra boş bir array veririz.
+    //bu boş array ilk renderde çalış daha sonra çalışma demektir. [] bu yani. eğer bunu şu şekilde geçseydik... [count] o zaman buna bağlı olarak çalışırdı. bu [count] değiştikçe
+    //bu da değişirdi. yada başka bir değere bağlı da olabilir [mail] yazarsak mail değiştikçe o da çalışır ama count değiştikçe çalışmaz
+
+  }, [])
+
+
+
+
+  //sonucunda clear fonksiyonu yazılan useeffect 
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      console.log('ben 2 saniyede bir çalışıyorum');
+    },2000)
+    return ()=> clearInterval(interval)
+    },[])
+
+  useEffect(() => {
+    console.log(`mail: ',${mail}`)
     console.log(mail.toUpperCase())
     // return () => {
     //  console.log('temizlendi')
@@ -56,12 +76,12 @@ const App = () => {
             <Button size="lg" variant='dark' className='m-3' style={btnStyle}>{count}</Button>
             <Button onClick={() => { setCount(count + 1) }} size="lg" variant='dark' className='m-3' style={btnStyle}>+</Button>
           </Col>
-          <Col style={{margin: 'auto'}}>
+          <Col style={{ margin: 'auto' }}>
             <Form style={formStyle}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control value={mail} onChange={changeMail} type="email" placeholder="Enter email" />
-                {mail!=='sashapoulain5@gmail.com' ? (<p></p>) : (<p>doğru</p>)} 
+                {mail !== 'sashapoulain5@gmail.com' ? (<p></p>) : (<p>doğru</p>)}
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
                   <p>{mail}</p>
@@ -70,7 +90,7 @@ const App = () => {
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control value={pass} onChange={changePass} type="password" placeholder="Password" />
-                {pass === '1234' ? (<p>hoşgeldiniz</p>): null}
+                {pass === '1234' ? (<p>hoşgeldiniz</p>) : null}
                 <p>{pass}</p>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
