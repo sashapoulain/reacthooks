@@ -1,111 +1,37 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import bgImage from './images/copacity.png'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { Button } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
-const bgStyle = {
-  backgroundImage: `url(${bgImage})`,
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-  height: '100vh'
-}
-
-const btnStyle = {
-  width: '100px',
-  fontSize: '2rem'
-}
-const formStyle = {
-  padding: '1em',
-}
-
+//api ile data çekmek için useeffect kullanılır, ek olarak axios kullanıldı.
 
 const App = () => {
-  const [count, setCount] = useState(0)
-  const [mail, setMail] = useState('')
-  const [pass, setPass] = useState('')
+  const [hits, setHits] = useState([])
+  const [query, setQuery] = useState('covid19')
 
-  //useffect 2 türlü kullanılabilir. sonucunda temizleme yapılabilir yada yapılmayabilir.
 
   useEffect(() => {
-    document.title = `${count} kez tıklandı`
-    console.log('çalışıyorum'); //her counta basıldığında burası çalışacak.
-    //eğer bu çalışıyorum her defasında console a yazmasın istiyorsak... o zaman, effect func. dan sonra boş bir array veririz.
-    //bu boş array ilk renderde çalış daha sonra çalışma demektir. [] bu yani. eğer bunu şu şekilde geçseydik... [count] o zaman buna bağlı olarak çalışırdı. bu [count] değiştikçe
-    //bu da değişirdi. yada başka bir değere bağlı da olabilir [mail] yazarsak mail değiştikçe o da çalışır ama count değiştikçe çalışmaz
+    const fetchData = async () => {
+      const { data } = await axios.get('https://hn.algolia.com/api/v1/search?query=${query}');
+      // console.log(data.hits)
+      setHits(data.hits)
+    }
+    fetchData()
+  }, [query])
+  //bunu her query değiştiğinde yapsın istiyoruz.
 
-  }, [])
+  return <div style={{ marginLeft: '100px', marginTop: '100px' }}>
+    <input type='text' onChange={(e)=> setQuery(e.target.value)}/>
+    <ul>
+       {hits.map((hit)=>(
+        <li key={hit.objectID}>
+        {hit.title}
+        </li>
+       ))}
+    </ul>
+  </div>
 
-
-
-
-  //sonucunda clear fonksiyonu yazılan useeffect 
-  useEffect(()=>{
-    const interval = setInterval(()=>{
-      console.log('ben 2 saniyede bir çalışıyorum');
-    },2000)
-    return ()=> clearInterval(interval)
-    },[])
-
-  useEffect(() => {
-    console.log(`mail: ',${mail}`)
-    console.log(mail.toUpperCase())
-    // return () => {
-    //  console.log('temizlendi')
-    // };
-  }, [mail]);
-  const changeMail = (e) => {
-    setMail(e.target.value)
-  }
-
-  const changePass = (e) => {
-    setPass(e.target.value)
-  }
-  return (
-    <>
-      <Container fluid>
-        <Row className='justify-content-center'>
-          <Col className='d-flex align-items-center justify-content-center' style={bgStyle}>
-            <Button onClick={() => { setCount(count - 1) }} size="lg" variant='dark' className='m-3' style={btnStyle}>-</Button>
-            <Button size="lg" variant='dark' className='m-3' style={btnStyle}>{count}</Button>
-            <Button onClick={() => { setCount(count + 1) }} size="lg" variant='dark' className='m-3' style={btnStyle}>+</Button>
-          </Col>
-          <Col style={{ margin: 'auto' }}>
-            <Form style={formStyle}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control value={mail} onChange={changeMail} type="email" placeholder="Enter email" />
-                {mail !== 'sashapoulain5@gmail.com' ? (<p></p>) : (<p>doğru</p>)}
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                  <p>{mail}</p>
-                </Form.Text>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control value={pass} onChange={changePass} type="password" placeholder="Password" />
-                {pass === '1234' ? (<p>hoşgeldiniz</p>) : null}
-                <p>{pass}</p>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-          </Col>
-
-        </Row>
-      </Container>
-    </>
-  );
 }
 
 export default App;
