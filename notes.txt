@@ -1,0 +1,10 @@
+useEffect() kullanım alanları: 
+1- get data, update data (fetch, axios, then&catch...)
+2- abonelikten çıkma (unsubscribe)
+3- Dom Manip. işlemlerinde...
+4- Api kullanırken
+5- state değişikliklerinde bir takım state değişimlerini, güncellemelerini kontrol etmek için
+6- component ilk render edildiğinde ( örn: bir kere kullanıcaz, bir daha çalışmasın istersek... )
+
+yani side effects e sahip olan işlemlerde bunu kullanabiliriz. ( side effects: yan etkiler genellikle bir component'in render edilmesi
+veya güncellenmesi sırasında ortaya çıkan işlemleri ifade eder. )
