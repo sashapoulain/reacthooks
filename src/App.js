@@ -16,7 +16,7 @@ const App = () => {
 
     const fetchData = async () => {
       const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon`)
-      console.log(data.results)
+      // console.log(data.results)
       setPokemon(data.results)
     }
     fetchData();

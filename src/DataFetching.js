@@ -7,7 +7,7 @@ const DataFetching = () => {
 useEffect(()=>{
    axios.get('https://rickandmortyapi.com/api/character')
    .then(data => {
-      console.log(data.data.results)
+      // console.log(data.data.results)
       setChar(data.data.results)
    })
    .catch(err=> {
