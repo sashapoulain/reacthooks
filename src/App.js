@@ -4,31 +4,31 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-//api ile data çekmek için useeffect kullanılır, ek olarak axios kullanıldı.
 
 const App = () => {
-  const [hits, setHits] = useState([])
-  const [query, setQuery] = useState('covid19')
+  const [pokemon, setPokemon] = useState([])
+  const [query, setQuery] = useState('pokemon')
 
 
   useEffect(() => {
+
+
     const fetchData = async () => {
-      const { data } = await axios.get('https://hn.algolia.com/api/v1/search?query=${query}');
-      // console.log(data.hits)
-      setHits(data.hits)
+      const {data} = await axios.get( `https://pokeapi.co/api/v2/pokemon`)
+      console.log(data.results)
+      setPokemon(data.results)
     }
-    fetchData()
-  }, [query])
+    fetchData();
+  }, 
+  [query]
+  )
   //bunu her query değiştiğinde yapsın istiyoruz.
 
   return <div style={{ marginLeft: '100px', marginTop: '100px' }}>
-    <input type='text' onChange={(e)=> setQuery(e.target.value)}/>
     <ul>
-       {hits.map((hit)=>(
-        <li key={hit.objectID}>
-        {hit.title}
-        </li>
-       ))}
+      {pokemon.map((poke)=> (
+        <li key={poke.url}><a href={poke.url}>{poke.name}</a></li>
+      ))}
     </ul>
   </div>
 
